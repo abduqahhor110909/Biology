@@ -1,0 +1,80 @@
+<div class="admin-card">
+    <div class="card-header-flex">
+        <div>
+            <h3>Saytdagi Barcha Reklama va Promo Bannerlar</h3>
+            <p style="color: #64748b; font-size: 0.85rem; margin: 4px 0 0;">
+                Bu yerdan maxsus takliflar, vebinarlar va homiylik reklamalarini qo'shishingiz, tahrirlashingiz yoki faolsizlantirishingiz mumkin.
+            </p>
+        </div>
+        <a href="/admin/banners/create" class="btn-admin btn-admin-primary">
+            <i class="bi bi-plus-lg"></i> Yangi Reklama Qo'shish
+        </a>
+    </div>
+
+    <div class="admin-table-wrap">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Rasm</th>
+                    <th>Sarlavha & Belgilanish</th>
+                    <th>Tugma & Link</th>
+                    <th>Joylashuvi</th>
+                    <th>Holati</th>
+                    <th>Amallar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (banners && banners.length > 0) { %>
+                    <% banners.forEach(function(b) { %>
+                    <tr>
+                        <td style="width: 120px;">
+                            <img src="<%= b.image || '/images/promo-banner.jpg' %>" alt="<%= b.title %>" style="width: 100px; height: 60px; object-fit: cover; border-radius: 8px;">
+                        </td>
+                        <td>
+                            <% if (b.badge) { %>
+                            <span class="badge-status contacted" style="font-size: 0.72rem; margin-bottom: 4px;"><%= b.badge %></span><br>
+                            <% } %>
+                            <strong style="color: #0f172a; font-size: 0.95rem;"><%= b.title %></strong>
+                            <div style="color: #64748b; font-size: 0.82rem; margin-top: 4px;"><%= b.description && b.description.length > 80 ? b.description.substring(0, 80) + '...' : b.description %></div>
+                        </td>
+                        <td>
+                            <div style="font-weight: 600; color: #059669;"><%= b.button_text %></div>
+                            <a href="<%= b.button_url %>" target="_blank" style="font-size: 0.78rem; color: #64748b;">
+                                <%= b.button_url && b.button_url.length > 30 ? b.button_url.substring(0, 30) + '...' : b.button_url %> <i class="bi bi-box-arrow-up-right"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <code><%= b.position %></code>
+                        </td>
+                        <td>
+                            <form action="/admin/banners/<%= b.id %>/toggle" method="POST" style="display: inline;">
+                                <button type="submit" class="badge-status <%= b.is_active ? 'active' : 'inactive' %>" style="border: none; cursor: pointer;">
+                                    <%= b.is_active ? 'Faol' : 'Nofaol' %>
+                                </button>
+                            </form>
+                        </td>
+                        <td>
+                            <div style="display: flex; gap: 8px;">
+                                <a href="/admin/banners/<%= b.id %>/edit" class="btn-admin btn-admin-outline" style="padding: 6px 10px;">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </a>
+                                <form action="/admin/banners/<%= b.id %>/delete" method="POST" onsubmit="return confirm('Haqiqatan ham bu reklamani o\'chirmoqchimisiz?');">
+                                    <button type="submit" class="btn-admin btn-admin-danger" style="padding: 6px 10px;">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    <% }); %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="6" style="text-align: center; color: #94a3b8; padding: 30px;">Hozircha reklamalar mavjud emas.</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+
+    <%- include('../../partials/pagination') %>
+</div>

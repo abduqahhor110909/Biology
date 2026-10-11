@@ -1,0 +1,29 @@
+<% if (typeof pagination !== 'undefined' && pagination && pagination.totalPages > 1) { %>
+<div style="display: flex; justify-content: center; align-items: center; gap: 6px; margin-top: 20px;">
+    <% if (pagination.currentPage > 1) { %>
+        <a href="<%= pagination.baseUrl %>?page=<%= pagination.currentPage - 1 %><%= pagination.queryStr ? '&' + pagination.queryStr : '' %>" class="btn-admin btn-admin-outline" style="padding: 6px 12px; font-size: 0.85rem;">
+            &laquo; Oldingi
+        </a>
+    <% } %>
+
+    <% for (let i = 1; i <= pagination.totalPages; i++) { %>
+        <% if (i === pagination.currentPage) { %>
+            <span class="btn-admin btn-admin-primary" style="padding: 6px 12px; font-size: 0.85rem;">
+                <%= i %>
+            </span>
+        <% } else if (i === 1 || i === pagination.totalPages || (i >= pagination.currentPage - 2 && i <= pagination.currentPage + 2)) { %>
+            <a href="<%= pagination.baseUrl %>?page=<%= i %><%= pagination.queryStr ? '&' + pagination.queryStr : '' %>" class="btn-admin btn-admin-outline" style="padding: 6px 12px; font-size: 0.85rem;">
+                <%= i %>
+            </a>
+        <% } else if (i === pagination.currentPage - 3 || i === pagination.currentPage + 3) { %>
+            <span style="padding: 6px 8px; color: #94a3b8;">...</span>
+        <% } %>
+    <% } %>
+
+    <% if (pagination.currentPage < pagination.totalPages) { %>
+        <a href="<%= pagination.baseUrl %>?page=<%= pagination.currentPage + 1 %><%= pagination.queryStr ? '&' + pagination.queryStr : '' %>" class="btn-admin btn-admin-outline" style="padding: 6px 12px; font-size: 0.85rem;">
+            Keyingi &raquo;
+        </a>
+    <% } %>
+</div>
+<% } %>
